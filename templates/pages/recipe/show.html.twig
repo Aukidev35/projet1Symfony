@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Mon projet - {{ recipe.name}}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="mt-4">{{ recipe.name }}</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success mt-4">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <p>La moyenne de cette recette est de {{recipe.average |number_format(2, '.', ',') }}/5</p>
+
+    <div>
+        <span class="badge bg-primary">Crée le {{ recipe.createdat|date('d/m/y') }} </span>
+    </div>
+
+    {% if recipe.time %}
+        <p>Temps (en minutes): {{ recipe.time|min_to_hour }}</p>
+    {% else %}
+        <p>Temps non renseigné</p>
+    {% endif %}
+
+    {% if recipe.nbPeople %}
+        <p>Pour {{ recipe.nbPeople }} personnes</p>
+    {% else %}
+        <p>Nombre de personne non renseigné</p>
+    {% endif %}
+
+    {% if recipe.difficulty %}
+        <p>Difficulté : {{ recipe.difficulty }}/5</p>
+    {% else %}
+        <p>Difficulté non renseigné</p>
+    {% endif %}
+
+    {% if recipe.price %}
+        <p>prix (en euro): {{ recipe.price }}€</p>
+    {% else %}
+        <p>Prix non renseigné</p>
+    {% endif %}
+    
+    <div>
+        {{ recipe.desciption|raw }}
+    </div>
+
+    <p>Ingrédients</p>
+    {% for ingredient in recipe.ingredients %}
+        <span class="badge bg-primary">{{ ingredient.name }}</span>
+    {% endfor %}
+
+    <div class="mark">
+        {{ form(form)}}
+    </div>
+</div>
+{% endblock %}
